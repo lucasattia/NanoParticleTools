@@ -6,3 +6,6 @@ scratch
 .vscode/
 
 .coverage
+
+# Environment 
+env/
