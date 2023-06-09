@@ -22,6 +22,9 @@ class NPMCDataset(Dataset):
     TODO: 1) Figure out a more elegant way to check if the data should be redownloaded
              (if the store has been updated)
           2) More elegant way to enforce size of dataset and redownload if the size is incorrect
+          3) We are currently not caching the data to file. Should look into whether or not it
+             is worth it to do so. There are some features already implemented to do this, such
+             as saving the hash of the data processors and checking if they have changed.
     """
 
     def __init__(self,
@@ -199,7 +202,7 @@ class NPMCDataset(Dataset):
 
         _d['constraints'] = doc['input']['constraints']
         _d['dopant_specifications'] = doc['input']['dopant_specifications']
-        if 'metadata' in doc:
+        if 'metadata' in doc and self.use_metadata:
             _d['metadata'] = doc['metadata']
         if issubclass(self.feature_processor.data_cls, HeteroData):
             return self.feature_processor.data_cls(_d)
